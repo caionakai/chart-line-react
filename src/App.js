@@ -7,10 +7,10 @@ const CANVAS_HEIGHT = 400;
 
 function App() {
   const data = [
-    { x: 100, y: 9 },
-    { x: 95, y: 300 },
     { x: 10, y: 210 },
     { x: 50, y: 150 },
+    { x: 95, y: 300 },
+    { x: 100, y: 9 },
     { x: 100, y: 100 },
   ];
 
@@ -65,10 +65,7 @@ function App() {
 
   const drawHorizontalReferenceLines = (canvasContext, MIN_MAX_X_Y_VALUES) => {
     const NUMBER_OF_REFERENCE_LINES = 10;
-    const DATA_INTERVAL =
-      (MIN_MAX_X_Y_VALUES.MAX_Y_DATA_VALUE -
-        MIN_MAX_X_Y_VALUES.MIN_Y_DATA_VALUE) /
-      9;
+    const DATA_INTERVAL = MIN_MAX_X_Y_VALUES.MAX_Y_DATA_VALUE / 10;
     for (let i = 0; i < NUMBER_OF_REFERENCE_LINES; i++) {
       canvasContext.beginPath();
       canvasContext.moveTo(
@@ -86,20 +83,12 @@ function App() {
         CHART_X_START - 25,
         CHART_Y_START + (CHART_HEIGHT / NUMBER_OF_REFERENCE_LINES) * i + 5
       );
-      canvasContext.fillText(
-        CHART_Y_START + (CHART_HEIGHT / NUMBER_OF_REFERENCE_LINES) * i,
-        CHART_X_START + 10,
-        CHART_Y_START + (CHART_HEIGHT / NUMBER_OF_REFERENCE_LINES) * i + 5
-      );
     }
   };
 
   const drawVerticalReferenceLines = (canvasContext, MIN_MAX_X_Y_VALUES) => {
     const NUMBER_OF_REFERENCE_LINES = 10;
-    const DATA_INTERVAL =
-      (MIN_MAX_X_Y_VALUES.MAX_X_DATA_VALUE -
-        MIN_MAX_X_Y_VALUES.MIN_X_DATA_VALUE) /
-      9;
+    const DATA_INTERVAL = MIN_MAX_X_Y_VALUES.MAX_X_DATA_VALUE / 10;
     for (let i = 1; i <= NUMBER_OF_REFERENCE_LINES; i++) {
       canvasContext.beginPath();
       canvasContext.moveTo(
@@ -138,13 +127,19 @@ function App() {
 
   const drawData = (canvasContext) => {
     canvasContext.fillStyle = "#66FF66";
-    data.forEach((dataValue) => {
+    data.forEach((dataValue, idx) => {
       canvasContext.beginPath();
+      canvasContext.lineWidth = 2;
       const data_x_position = (dataValue.x * CHART_WIDTH) / 100 + CHART_X_START;
-      const data_y_position =
-        CHART_Y_END -
-        ((dataValue.y * CHART_HEIGHT) / 300 + CHART_Y_START) +
-        CHART_Y_START;
+      const data_y_position = CHART_Y_END - (dataValue.y * CHART_HEIGHT) / 300;
+      const nextIdx = data[idx + 1] ? idx + 1 : idx;
+      const next_data_x_position =
+        (data[nextIdx].x * CHART_WIDTH) / 100 + CHART_X_START;
+      const next_data_y_position =
+        CHART_Y_END - (data[nextIdx].y * CHART_HEIGHT) / 300;
+      canvasContext.moveTo(data_x_position, data_y_position);
+
+      canvasContext.lineTo(next_data_x_position, next_data_y_position);
       canvasContext.arc(
         data_x_position,
         data_y_position,
