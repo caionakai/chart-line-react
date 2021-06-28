@@ -127,6 +127,7 @@ function App() {
 
   const drawData = (canvasContext) => {
     canvasContext.fillStyle = "#66FF66";
+    canvasContext.strokeStyle = "#66FF66";
     data.forEach((dataValue, idx) => {
       canvasContext.beginPath();
       canvasContext.lineWidth = 2;
@@ -140,6 +141,9 @@ function App() {
       canvasContext.moveTo(data_x_position, data_y_position);
 
       canvasContext.lineTo(next_data_x_position, next_data_y_position);
+      canvasContext.stroke();
+      canvasContext.closePath();
+      canvasContext.beginPath();
       canvasContext.arc(
         data_x_position,
         data_y_position,
