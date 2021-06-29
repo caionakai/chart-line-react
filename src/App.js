@@ -11,7 +11,7 @@ function App() {
     { x: 50, y: 150 },
   ];
   return (
-    <div className="App">
+    <div className="App" style={{ backgroundColor: "#222631" }}>
       <LineChart data={data} />
     </div>
   );
